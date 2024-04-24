@@ -25,7 +25,7 @@ window.onload = function() {
   initializeLiff('2004729502-P84rOQer');
 }
 
-const xurl = "https://script.google.com/macros/s/AKfycbxtaxoDbXkBc5_R-2-mjaOKsy_ICoDpIiEOY0v4y8tpvXuL9cfj-64GqsqIQNEX6PUR/exec";
+const xurl = "https://script.google.com/macros/s/AKfycbzyBsDwT_NCLV8eo35JkehSIAgsl0XFGILmT1iDrLtUKJop3wKoi5fFoGrn9I393Jts/exec";
 
 function checks(){
 
@@ -86,7 +86,7 @@ var xmlhttp = new XMLHttpRequest();
         if (this.readyState == 4 && this.status == 200) {
             var jsonResponse = JSON.parse(this.responseText);
         }
-        alert(jsonResponse.desc);
+        alert(jsonResponse.desc,this.status,this.readyState);
         liff.closeWindow();
       }});  
 }
