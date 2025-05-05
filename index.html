@@ -4,12 +4,43 @@
     <meta charset="UTF-8">
     <title>LIFF 位置顯示</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #007aff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        #mapImage {
+            display: none;
+            width: 80%;
+            max-width: 800px;
+            height: auto;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
     <h2>點擊按鈕顯示你的目前位置</h2>
     <button id="showLocation">顯示位置</button>
     <div id="locationInfo"></div>
-    <img id="mapImage" style="display:none; width:600px; height:400px;" />
+    <img id="mapImage" />
 
     <script>
         async function initLIFF() {
@@ -24,11 +55,11 @@
                     (position) => {
                         const lat = position.coords.latitude;
                         const lon = position.coords.longitude;
-                        document.getElementById('locationInfo').innerHTML = `<p>你的目前位置：<br>緯度: ${lat}<br>經度: ${lon}</p>`;
+                        document.getElementById('locationInfo').innerHTML = `<p><strong>你的目前位置：</strong><br>緯度: ${lat}<br>經度: ${lon}</p>`;
 
                         // 設定 Geoapify 靜態地圖 API URL
                         const apiKey = "6af1c1ad6f844686b58326063c9da19d";
-                        const mapUrl = `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${lon},${lat}&zoom=15&marker=lonlat:${lon},${lat};type:material;color:%23ff3421;icontype:awesome&scaleFactor=2&apiKey=${apiKey}`;
+                        const mapUrl = `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=800&height=600&center=lonlat:${lon},${lat}&zoom=15&marker=lonlat:${lon},${lat};type:material;color:%23ff3421;icontype:awesome&scaleFactor=2&apiKey=${apiKey}`;
 
                         // 顯示地圖圖片
                         const mapImage = document.getElementById('mapImage');
