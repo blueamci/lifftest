@@ -8,6 +8,8 @@
 <body>
     <h2>點擊按鈕顯示你的目前位置</h2>
     <button id="showLocation">顯示位置</button>
+    <div id="locationInfo"></div>
+    <img id="mapImage" style="display:none; width:600px; height:400px;" />
 
     <script>
         async function initLIFF() {
@@ -22,7 +24,16 @@
                     (position) => {
                         const lat = position.coords.latitude;
                         const lon = position.coords.longitude;
-                        alert(`你的目前位置：\n緯度: ${lat}\n經度: ${lon}`);
+                        document.getElementById('locationInfo').innerHTML = `<p>你的目前位置：<br>緯度: ${lat}<br>經度: ${lon}</p>`;
+
+                        // 設定 Geoapify 靜態地圖 API URL
+                        const apiKey = "6af1c1ad6f844686b58326063c9da19d";
+                        const mapUrl = `https://maps.geoapify.com/v1/staticmap?style=osm-bright&width=600&height=400&center=lonlat:${lon},${lat}&zoom=15&marker=lonlat:${lon},${lat};type:material;color:%23ff3421;icontype:awesome&scaleFactor=2&apiKey=${apiKey}`;
+
+                        // 顯示地圖圖片
+                        const mapImage = document.getElementById('mapImage');
+                        mapImage.src = mapUrl;
+                        mapImage.style.display = "block";
                     },
                     (error) => {
                         alert("無法取得位置，請開啟 GPS 權限！");
