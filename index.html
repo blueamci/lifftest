@@ -2,45 +2,36 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>位置分享</title>
+    <title>LIFF 位置顯示</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
-    <button id="sendLocation">發送目前位置</button>
+    <h2>點擊按鈕顯示你的目前位置</h2>
+    <button id="showLocation">顯示位置</button>
+
     <script>
-        async function sendLocation() {
+        async function initLIFF() {
             await liff.init({ liffId: '2007367348-eAamRLzp' });
 
             if (!liff.isLoggedIn()) {
                 liff.login();
             }
 
-            navigator.geolocation.getCurrentPosition(async function (position) {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                const mapUrl = `https://www.google.com/maps?q=${lat},${lon}`;
-                const mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${lon}&zoom=15&size=600x300&maptype=roadmap&markers=color:red|${lat},${lon}&key=YOUR_GOOGLE_MAPS_API_KEY`;
-
-                await liff.sendMessages([
-                    {
-                        type: "text",
-                        text: `這是我的位置：\nGoogle Maps 連結：${mapUrl}`
+            document.getElementById('showLocation').addEventListener('click', () => {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        alert(`你的目前位置：\n緯度: ${lat}\n經度: ${lon}`);
                     },
-                    {
-                        type: "image",
-                        originalContentUrl: mapImageUrl,
-                        previewImageUrl: mapImageUrl
+                    (error) => {
+                        alert("無法取得位置，請開啟 GPS 權限！");
                     }
-                ]);
-
-                alert("位置已發送！");
-                liff.closeWindow();
-            }, function (error) {
-                alert("無法取得位置，請開啟 GPS 權限！");
+                );
             });
         }
 
-        document.getElementById('sendLocation').addEventListener('click', sendLocation);
+        initLIFF();
     </script>
 </body>
 </html>
